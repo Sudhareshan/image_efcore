@@ -1,0 +1,64 @@
+﻿@model Image.Models.EmployModel
+<style>
+    #imagePreview{
+        width:300px;
+        height:200px;
+        display:flex;
+        justify-content:end;
+    }
+</style>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div id="imagePreview" style="margin-top: 10px;"></div>
+    <div>
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="City">City</label>
+        <select asp-for="City" asp-items="ViewBag.CityList"></select>
+    </div>
+    <div>
+        <label>Gender</label><br />
+        <input type="radio" name="Gender" value="Male" /> Male
+        <input type="radio" name="Gender" value="Female" /> Female
+    </div>
+    <div>
+        <label>Hobbies</label><br />
+        @foreach (var hobby in ViewBag.Hobbies)
+        {
+            <input type="checkbox" name="selectedHobbies" value="@hobby.ID" /> @hobby.Name <br />
+        }
+    </div>
+    <div>
+        <label asp-for="ProfileImage">Profile Image</label>
+        @*<input type="file" asp-for="ProfileImage" />*@
+        <input type="file" name="ProfileImage" id="profileImageInput" onchange="displayImagePreview()" />
+       
+    </div>
+    <button type="submit">Create Employee</button>
+</form>
+<script>
+    function displayImagePreview() {
+        var fileInput = document.getElementById("profileImageInput");
+        var imagePreview = document.getElementById("imagePreview");
+
+        if (fileInput.files.length > 0) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var image = document.createElement("img");
+                image.src = e.target.result;
+                image.style.maxWidth = "100px"; // Adjust the maximum width as needed
+                image.style.marginTop = "5px";
+
+                imagePreview.innerHTML = "";
+                imagePreview.appendChild(image);
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            imagePreview.innerHTML = "";
+        }
+    }
+</script>

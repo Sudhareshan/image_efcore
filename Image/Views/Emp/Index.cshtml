@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Image.Models.EmployModel>
+
+    <a asp-action="Create" asp-controller="Emp">Create</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Gender</th>
+            <th>Hobbies</th>
+            <th>Profile Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.Name</td>
+                <td>@employee.City</td>
+                <td>@employee.Gender</td>
+                <td>@string.Join(", ", employee.Hobbies.Select(h => h.Name))</td>
+                <td><img src="@employee.ProfileImage" alt="Profile Image" width="100" /></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
